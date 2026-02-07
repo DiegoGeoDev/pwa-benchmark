@@ -5,12 +5,12 @@ import { ZardButtonComponent } from '../../components/button';
 import { ZardIconComponent } from '../../components/icon';
 
 @Component({
-  selector: 'z-dark-mode',
+  selector: 'z-dark-mode-toggle',
   templateUrl: './dark-mode-toggle.component.html',
   imports: [ZardButtonComponent, ZardIconComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DarkModeComponent {
+export class DarkModeToggleComponent {
   private readonly darkModeService = inject(ZardDarkMode);
 
   toggleTheme(): void {
