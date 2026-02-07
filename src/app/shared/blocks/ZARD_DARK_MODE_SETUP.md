@@ -1,12 +1,14 @@
+# Zard UI Dark Mode Setup Instructions
+
+## 1. Update index.html
+
+```html
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <title>PwaBenchmark</title>
-    <base href="/" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <!-- ... your existing head content -->
 
+    <!-- add this script to handle dark mode on initial load -->
     <script>
       (function () {
         const html = document.documentElement;
@@ -26,7 +28,27 @@
       })();
     </script>
   </head>
-  <body>
-    <app-root></app-root>
-  </body>
+  <!-- ... your existing body content -->
 </html>
+```
+
+## 2. Update providezard.ts
+
+```ts
+import {
+  // existing imports...
+  inject,
+  provideAppInitializer,
+} from '@angular/core';
+// existing imports...
+import { ZardDarkMode } from '../../blocks/dark-mode/dark-mode.service';
+
+export function provideZard(): EnvironmentProviders {
+  // existing provider setup...
+
+  return makeEnvironmentProviders([
+    provideAppInitializer(() => inject(ZardDarkMode).init()),
+    ...eventManagerPlugins,
+  ]);
+}
+```
