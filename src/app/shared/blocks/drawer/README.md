@@ -1,208 +1,176 @@
-# Drawer Component
+# Drawer
 
-Menu lateral deslizante com backdrop, perfeito para navegação e menus laterais.
+Um componente trigger que abre o Sheet lateral, tipicamente usado para menus de navegação ou painéis laterais. Este block aproveita o componente primitivo Sheet para todas as funcionalidades.
+
+## Filosofia
+
+O Drawer é um block de composição que usa o primitivo Sheet. Em vez de duplicar a lógica do Sheet, ele fornece um botão trigger conveniente e padrões sensatos para casos de uso de painéis laterais (side='left', ícone de navegação, etc.).
 
 ## Componentes
 
-- **DrawerComponent** (`z-drawer`) - Container do drawer
-- **DrawerHeaderComponent** (`z-drawer-header`) - Cabeçalho
-- **DrawerBodyComponent** (`z-drawer-body`) - Conteúdo scrollável
-- **DrawerFooterComponent** (`z-drawer-footer`) - Rodapé
+### DrawerTriggerComponent
 
-## Uso Básico
+Um botão que abre um Sheet com configurações padrão de drawer.
+
+#### Uso Básico
 
 ```typescript
-import {
-  DrawerComponent,
-  DrawerHeaderComponent,
-  DrawerBodyComponent,
-  DrawerFooterComponent,
-} from '@/shared/blocks/drawer';
+import { Component } from '@angular/core';
+import { DrawerTriggerComponent } from '@/shared/blocks/drawer';
 
 @Component({
-  imports: [
-    DrawerComponent,
-    DrawerHeaderComponent,
-    DrawerBodyComponent,
-    DrawerFooterComponent,
-  ],
+  selector: 'app-navigation',
+  imports: [DrawerTriggerComponent],
   template: `
-    <z-drawer [zOpen]="isOpen()" (onClose)="handleClose()">
-      <z-drawer-header>
-        <h2>Menu</h2>
-        <button (click)="handleClose()">Fechar</button>
-      </z-drawer-header>
-
-      <z-drawer-body>
-        <!-- Conteúdo do menu -->
-      </z-drawer-body>
-
-      <z-drawer-footer>
-        <p>Footer</p>
-      </z-drawer-footer>
-    </z-drawer>
-  `,
+    <z-drawer-trigger
+      zTitle="Navegação"
+      [zContent]="NavigationContent"
+      [zHideFooter]="true"
+    >
+      Menu
+    </z-drawer-trigger>
+  `
 })
+export class AppNavigationComponent {
+  NavigationContent = NavigationContentComponent;
+}
+
+@Component({
+  template: `
+    <nav class="flex flex-col gap-2 p-4">
+      <a href="/home">Home</a>
+      <a href="/sobre">Sobre</a>
+      <a href="/contato">Contato</a>
+    </nav>
+  `
+})
+class NavigationContentComponent {}
 ```
 
-## Drawer Simples
+#### Exemplo Avançado com Dados
 
 ```typescript
+import { Component, inject } from '@angular/core';
+import { DrawerTriggerComponent } from '@/shared/blocks/drawer';
+import { Z_SHEET_DATA } from '@/shared/components/sheet';
+import { ZardIconComponent } from '@/shared/components/icon';
+
+interface UserData {
+  name: string;
+  email: string;
+}
+
+@Component({
+  imports: [DrawerTriggerComponent, ZardIconComponent],
+  template: `
+    <z-drawer-trigger
+      zTitle="Editar Perfil"
+      zDescription="Atualize suas informações de perfil"
+      [zContent]="ProfileForm"
+      [zData]="userData"
+      zOkText="Salvar"
+    >
+      <z-icon zType="user" />
+      Perfil
+    </z-drawer-trigger>
+  `
+})
+export class ProfileTriggerComponent {
+  userData: UserData = {
+    name: 'João Silva',
+    email: 'joao@example.com'
+  };
+  
+  ProfileForm = ProfileFormComponent;
+}
+
 @Component({
   template: `
-    <button (click)="isDrawerOpen.set(true)">Abrir Menu</button>
-
-    <z-drawer [zOpen]="isDrawerOpen()" (onClose)="isDrawerOpen.set(false)">
-      <z-drawer-header>
-        <h2 class="text-lg font-bold">Menu</h2>
-        <button z-button zType="ghost" zSize="sm" (click)="isDrawerOpen.set(false)">
-          <z-icon zType="x" />
-        </button>
-      </z-drawer-header>
-
-      <z-drawer-body>
-        <nav class="flex flex-col gap-2">
-          <a routerLink="/" (click)="isDrawerOpen.set(false)">Home</a>
-          <a routerLink="/about" (click)="isDrawerOpen.set(false)">About</a>
-        </nav>
-      </z-drawer-body>
-    </z-drawer>
-  `,
+    <form class="flex flex-col gap-4 p-4">
+      <input z-input [value]="data.name" placeholder="Nome" />
+      <input z-input [value]="data.email" placeholder="Email" />
+    </form>
+  `
 })
-export class MyComponent {
-  isDrawerOpen = signal(false);
+class ProfileFormComponent {
+  data = inject<UserData>(Z_SHEET_DATA);
 }
 ```
 
-## Props
+#### Usando o Sheet Service Diretamente
 
-### DrawerComponent
+Para mais controle, você pode usar o Sheet service diretamente:
 
-| Prop | Tipo | Padrão | Descrição |
-|------|------|--------|-----------|
+```typescript
+import { Component, inject } from '@angular/core';
+import { ZardButtonComponent } from '@/shared/components/button';
+import { ZardIconComponent } from '@/shared/components/icon';
+import { ZardSheetService } from '@/shared/components/sheet';
+
+@Component({
+  imports: [ZardButtonComponent, ZardIconComponent],
+  template: `
+    <button z-button zType="ghost" (click)="openDrawer()">
+      <z-icon zType="panel-left" />
+      Navegação
+    </button>
+  `
+})
+export class CustomDrawerComponent {
+  private sheetService = inject(ZardSheetService);
+
+  openDrawer() {
+    this.sheetService.create({
+      zTitle: 'Navegação',
+      zSide: 'left',
+      zSize: 'default',
+      zContent: NavigationContent,
+      zHideFooter: true,
+      zMaskClosable: true
+    });
+  }
+}
+```
+
+#### Inputs
+
+| Input | Tipo | Padrão | Descrição |
+|-------|------|---------|-------------|
 | `class` | `ClassValue` | `''` | Classes CSS adicionais |
-| `zOpen` | `boolean` | `false` | Estado aberto/fechado |
-| `zPosition` | `'left' \| 'right' \| 'top' \| 'bottom'` | `'left'` | Posição do drawer |
-| `zWidth` | `'sm' \| 'default' \| 'lg' \| 'full'` | `'default'` | Largura (left/right) |
-| `zCloseOnBackdropClick` | `boolean` | `true` | Fecha ao clicar no backdrop |
-| `ariaLabel` | `string` | `'Navigation drawer'` | Label acessível |
+| `zIcon` | `string` | `'panel-left'` | Tipo do ícone para o botão |
+| `zButtonType` | `'default' \| 'outline' \| 'ghost'` | `'ghost'` | Estilo visual do botão |
+| `zTitle` | `string \| TemplateRef<T>` | - | Título do sheet |
+| `zDescription` | `string` | - | Descrição do sheet |
+| `zContent` | `string \| TemplateRef<T> \| Type<T>` | **obrigatório** | Componente/template do conteúdo |
+| `zData` | `U` | - | Dados passados para o componente |
+| `zSide` | `'left' \| 'right' \| 'top' \| 'bottom'` | `'left'` | Lado de abertura |
+| `zSize` | `'sm' \| 'default' \| 'lg'` | `'default'` | Largura do sheet |
+| `zOkText` | `string \| null` | `'OK'` | Texto do botão OK (null para ocultar) |
+| `zCancelText` | `string \| null` | `'Cancel'` | Texto do botão Cancelar (null para ocultar) |
+| `zClosable` | `boolean` | `true` | Mostrar botão de fechar |
+| `zMaskClosable` | `boolean` | `true` | Fechar ao clicar no backdrop |
+| `zHideFooter` | `boolean` | `false` | Ocultar botões do rodapé |
 
-### Eventos
+#### Slots
 
-**DrawerComponent**
-- `onClose` - Emitido ao fechar
-- `onOpen` - Emitido ao abrir
+- **Default**: Conteúdo do botão trigger (texto/ícones)
 
-## Exemplos
+## Notas
 
-### Drawer à Direita
-
-```html
-<z-drawer [zOpen]="isOpen()" zPosition="right" (onClose)="handleClose()">
-  <z-drawer-header>
-    <h2>Settings</h2>
-  </z-drawer-header>
-  <z-drawer-body>
-    <!-- Settings content -->
-  </z-drawer-body>
-</z-drawer>
-```
-
-### Drawer Superior
-
-```html
-<z-drawer [zOpen]="isOpen()" zPosition="top" (onClose)="handleClose()">
-  <z-drawer-body>
-    <!-- Notifications -->
-  </z-drawer-body>
-</z-drawer>
-```
-
-### Drawer Largo
-
-```html
-<z-drawer [zOpen]="isOpen()" zWidth="lg" (onClose)="handleClose()">
-  <!-- Conteúdo -->
-</z-drawer>
-```
-
-### Menu de Navegação Completo
-
-```html
-<z-drawer [zOpen]="isMenuOpen()" (onClose)="closeMenu()">
-  <z-drawer-header>
-    <h2 class="text-lg font-semibold">Menu</h2>
-    <button z-button zType="ghost" zSize="sm" (click)="closeMenu()">
-      <z-icon zType="x" />
-    </button>
-  </z-drawer-header>
-
-  <z-drawer-body>
-    <nav class="flex flex-col gap-2">
-      <a 
-        routerLink="/"
-        routerLinkActive="bg-accent"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent"
-        (click)="closeMenu()"
-      >
-        <z-icon zType="house" />
-        <span>Home</span>
-      </a>
-      <a 
-        routerLink="/dashboard"
-        routerLinkActive="bg-accent"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent"
-        (click)="closeMenu()"
-      >
-        <z-icon zType="layout-dashboard" />
-        <span>Dashboard</span>
-      </a>
-      <a 
-        routerLink="/settings"
-        routerLinkActive="bg-accent"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent"
-        (click)="closeMenu()"
-      >
-        <z-icon zType="settings" />
-        <span>Settings</span>
-      </a>
-    </nav>
-  </z-drawer-body>
-
-  <z-drawer-footer>
-    <p class="text-sm text-muted-foreground">v1.0.0</p>
-  </z-drawer-footer>
-</z-drawer>
-```
-
-### Com User Profile
-
-```html
-<z-drawer [zOpen]="isOpen()" (onClose)="handleClose()">
-  <z-drawer-header class="flex-col items-start gap-4">
-    <div class="flex items-center gap-3">
-      <div class="w-12 h-12 rounded-full bg-primary"></div>
-      <div>
-        <p class="font-semibold">João Silva</p>
-        <p class="text-sm text-muted-foreground">joao@email.com</p>
-      </div>
-    </div>
-    <button z-button zType="ghost" zSize="sm" (click)="handleClose()">
-      <z-icon zType="x" />
-    </button>
-  </z-drawer-header>
-
-  <z-drawer-body>
-    <!-- Menu items -->
-  </z-drawer-body>
-</z-drawer>
-```
+- Usa o componente primitivo Sheet internamente
+- Todas as funcionalidades do Sheet estão disponíveis (backdrop, animações, portal, etc.)
+- Comportamento padrão otimizado para drawers de navegação (side='left', botão ghost)
+- Para implementações customizadas, use `ZardSheetService` diretamente
+- Componentes de conteúdo podem injetar `Z_SHEET_DATA` para acessar dados passados
 
 ## Acessibilidade
 
-- Usa `role="dialog"` 
-- Backdrop clicável para fechar
-- Foca o drawer ao abrir
-- ESC fecha o drawer (implementar)
-- `aria-hidden` quando fechado
-- Previne scroll do body quando aberto
+- Botão tem gerenciamento de foco apropriado
+- Sheet lida com navegação por teclado (Escape para fechar)
+- Labels ARIA aplicados automaticamente
+- Suporta leitores de tela
+
+## Relacionados
+
+- [Sheet Component](../../components/sheet/README.md) - O componente primitivo
+- [Bottom Sheet](../bottom-sheet/README.md) - Padrão similar para painéis inferiores

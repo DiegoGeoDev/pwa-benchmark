@@ -2,102 +2,75 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
+  inject,
   input,
-  output,
-  signal,
+  type TemplateRef,
+  type Type,
   ViewEncapsulation,
-  booleanAttribute,
 } from '@angular/core';
 
 import type { ClassValue } from 'clsx';
 
+import { ZardButtonComponent } from '../../components/button/button.component';
+import { ZardIconComponent } from '../../components/icon/icon.component';
+import type { ZardIcon } from '../../components/icon/icons';
+import { type ZardSheetOptions, ZardSheetService } from '../../components/sheet';
 import { mergeClasses } from '../../utils/merge-classes';
 
-import {
-  drawerBackdropVariants,
-  drawerVariants,
-  type ZardDrawerPositionVariants,
-  type ZardDrawerWidthVariants,
-} from './drawer.variants';
+import { drawerTriggerVariants } from './drawer.variants';
 
 @Component({
-  selector: 'z-drawer',
+  selector: 'z-drawer-trigger',
+  imports: [ZardButtonComponent, ZardIconComponent],
   template: `
-    <!-- Backdrop -->
-    @if (zOpen()) {
-      <div
-        [class]="backdropClasses()"
-        [attr.data-state]="zOpen() ? 'open' : 'closed'"
-        (click)="zCloseOnBackdropClick() && handleClose()"
-        role="presentation"
-      ></div>
-    }
-
-    <!-- Drawer -->
-    <aside
-      [class]="classes()"
-      [attr.data-state]="zOpen() ? 'open' : 'closed'"
-      [attr.aria-hidden]="!zOpen()"
-      role="dialog"
-      [attr.aria-label]="ariaLabel()"
-    >
+    <button type="button" z-button [zType]="zButtonType()" [class]="classes()" (click)="openDrawer()">
+      @if (zIcon()) {
+        <z-icon [zType]="zIcon()" />
+      }
       <ng-content />
-    </aside>
+    </button>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
-  host: {
-    '[class]': '"block"',
-  },
-  exportAs: 'zDrawer',
+  exportAs: 'zDrawerTrigger',
 })
-export class DrawerComponent {
+export class DrawerTriggerComponent<T = any, U = any> {
+  private readonly sheetService = inject(ZardSheetService);
+
   readonly class = input<ClassValue>('');
-  readonly zOpen = input<boolean, any>(false, { transform: booleanAttribute });
-  readonly zPosition = input<ZardDrawerPositionVariants>('left');
-  readonly zWidth = input<ZardDrawerWidthVariants>('default');
-  readonly zCloseOnBackdropClick = input<boolean, any>(true, { transform: booleanAttribute });
-  readonly ariaLabel = input<string>('Navigation drawer');
+  readonly zIcon = input<ZardIcon>('panel-left');
+  readonly zButtonType = input<'default' | 'outline' | 'ghost'>('ghost');
 
-  readonly onClose = output<void>();
-  readonly onOpen = output<void>();
+  // Sheet configuration inputs
+  readonly zTitle = input<string | TemplateRef<T>>();
+  readonly zDescription = input<string>();
+  readonly zContent = input.required<string | TemplateRef<T> | Type<T>>();
+  readonly zData = input<U>();
+  readonly zSide = input<'left' | 'right' | 'top' | 'bottom'>('left');
+  readonly zSize = input<'sm' | 'default' | 'lg'>('default');
+  readonly zOkText = input<string | null>('OK');
+  readonly zCancelText = input<string | null>('Cancel');
+  readonly zClosable = input<boolean>(true);
+  readonly zMaskClosable = input<boolean>(true);
+  readonly zHideFooter = input<boolean>(false);
 
-  private readonly previousOpenState = signal(false);
+  protected readonly classes = computed(() => mergeClasses(drawerTriggerVariants(), this.class()));
 
-  protected readonly classes = computed(() =>
-    mergeClasses(
-      drawerVariants({
-        zPosition: this.zPosition(),
-        zWidth: this.zWidth(),
-      }),
-      this.class(),
-    ),
-  );
+  openDrawer(): void {
+    const config: ZardSheetOptions<T, U> = {
+      zTitle: this.zTitle(),
+      zDescription: this.zDescription(),
+      zContent: this.zContent(),
+      zData: this.zData(),
+      zSide: this.zSide(),
+      zSize: this.zSize(),
+      zOkText: this.zOkText(),
+      zCancelText: this.zCancelText(),
+      zClosable: this.zClosable(),
+      zMaskClosable: this.zMaskClosable(),
+      zHideFooter: this.zHideFooter(),
+    };
 
-  protected readonly backdropClasses = computed(() => mergeClasses(drawerBackdropVariants()));
-
-  constructor() {
-    effect(() => {
-      const isOpen = this.zOpen();
-      const wasOpen = this.previousOpenState();
-
-      if (isOpen !== wasOpen) {
-        if (isOpen) {
-          this.onOpen.emit();
-          // Prevent body scroll when drawer is open
-          document.body.style.overflow = 'hidden';
-        } else {
-          this.onClose.emit();
-          // Restore body scroll when drawer is closed
-          document.body.style.overflow = '';
-        }
-        this.previousOpenState.set(isOpen);
-      }
-    });
-  }
-
-  protected handleClose(): void {
-    this.onClose.emit();
+    this.sheetService.create(config);
   }
 }

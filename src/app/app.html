@@ -7,7 +7,7 @@
         z-button
         zType="ghost"
         zSize="sm"
-        (click)="toggleDrawer()"
+        (click)="openNavigationDrawer()"
         aria-label="Open menu"
         class="md:hidden"
       >
@@ -35,45 +35,5 @@
   </z-bottom-navigation-bar>
 </z-scaffold>
 
-<!-- Drawer (Menu Lateral) -->
-<z-drawer [zOpen]="isDrawerOpen()" (onClose)="closeDrawer()">
-  <z-drawer-header>
-    <h2 class="text-lg font-semibold">Menu</h2>
-    <button z-button zType="ghost" zSize="sm" (click)="closeDrawer()" aria-label="Close menu">
-      <z-icon zType="x" />
-    </button>
-  </z-drawer-header>
-
-  <z-drawer-body>
-    <nav class="flex flex-col gap-2">
-      <a
-        routerLink="/"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
-        (click)="closeDrawer()"
-      >
-        <z-icon zType="house" />
-        <span>Home</span>
-      </a>
-      <a
-        routerLink="/benchmark-01"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
-        (click)="closeDrawer()"
-      >
-        <z-icon zType="activity" />
-        <span>Benchmark 01</span>
-      </a>
-      <a
-        routerLink="/settings"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
-        (click)="closeDrawer()"
-      >
-        <z-icon zType="settings" />
-        <span>Settings</span>
-      </a>
-    </nav>
-  </z-drawer-body>
-
-  <z-drawer-footer>
-    <p class="text-sm text-muted-foreground">PWA v1.0.0</p>
-  </z-drawer-footer>
-</z-drawer>
+<!-- Toaster para notificações -->
+<z-toaster />
