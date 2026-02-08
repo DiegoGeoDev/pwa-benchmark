@@ -76,12 +76,12 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main
+      - master # ou main, dependendo do nome da sua branch principal
   workflow_dispatch:
 ```
 
 **Explicação:**
-- `on: push`: O workflow é executado automaticamente a cada push na branch `main`
+- `on: push`: O workflow é executado automaticamente a cada push na branch `master`
 - `workflow_dispatch`: Permite executar o workflow manualmente através da interface do GitHub
 
 #### 3.2. Permissões
@@ -186,7 +186,7 @@ Após a configuração, o deploy acontece automaticamente:
 
 1. Faça alterações no código
 2. Commit das alterações: `git add .` e `git commit -m "mensagem"`
-3. Push para o GitHub: `git push origin main`
+3. Push para o GitHub: `git push origin master`
 4. O GitHub Actions detectará o push e iniciará o workflow automaticamente
 5. Aguarde alguns minutos e acesse a URL da aplicação
 

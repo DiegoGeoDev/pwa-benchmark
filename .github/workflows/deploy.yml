@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - master  # ou master, dependendo do seu branch principal
+      - master  # ou main, dependendo do seu branch principal
   workflow_dispatch:  # Permite executar manualmente o workflow
 
 # Define permissões necessárias para deploy no GitHub Pages
