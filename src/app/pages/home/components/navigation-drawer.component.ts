@@ -38,4 +38,4 @@ import { ZardIconComponent } from '@/shared/components/icon';
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'appNavigationDrawerContent',
 })
-export class AppNavigationDrawerContentComponent {}
+export class NavigationDrawerContentComponent {}

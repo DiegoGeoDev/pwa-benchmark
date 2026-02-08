@@ -1,129 +1,124 @@
-<!-- Exemplo de uso do Header Toolbar -->
-<z-header-toolbar [zSticky]="true">
-  <z-header-back-action>
-    <button z-button zType="ghost" zSize="sm" (click)="goBack()" aria-label="Voltar">
-      <z-icon zType="arrow-left" />
-    </button>
-  </z-header-back-action>
+<!-- Scaffold Pattern -->
+<z-scaffold>
+  <!-- App Bar -->
+  <z-app-bar>
+    <z-header-toolbar>
+      <z-header-back-action>
+        <button z-button zType="ghost" zSize="sm" (click)="goBack()" aria-label="Voltar">
+          <z-icon zType="arrow-left" />
+        </button>
+      </z-header-back-action>
 
-  <z-header-title>
-    Benchmark 01
-  </z-header-title>
+      <z-header-title>PWA Benchmark</z-header-title>
 
-  <z-header-actions>
-    <button z-button zType="ghost" zSize="sm" (click)="handleSearch()" aria-label="Pesquisar">
-      <z-icon zType="search" />
-    </button>
-    <button z-button zType="ghost" zSize="sm" (click)="handleMore()" aria-label="Mais opções">
-      <z-icon zType="ellipsis" />
-    </button>
-  </z-header-actions>
-</z-header-toolbar>
+      <z-header-actions>
+        <z-dark-mode-toggle />
+      </z-header-actions>
+    </z-header-toolbar>
+  </z-app-bar>
 
-<!-- Conteúdo da página -->
-<div class="p-6 space-y-4">
-  <h2 class="text-2xl font-bold">Exemplos de Header</h2>
+  <!-- Main Content -->
+  <z-scaffold-body class="flex-1 flex justify-center items-center">
+    <!-- Conteúdo da página -->
+    <div class="p-6 space-y-4">
+      <h2 class="text-2xl font-bold">Exemplos de Header</h2>
 
-  <div class="space-y-6">
-    <!-- Exemplo 1: Header simples -->
-    <div class="border rounded-lg overflow-hidden">
-      <z-header-toolbar zSize="sm">
-        <z-header-title>
-          Header Simples
-        </z-header-title>
-      </z-header-toolbar>
-      <div class="p-4 bg-muted/30">
-        <p class="text-sm text-muted-foreground">
-          Header apenas com título, sem ações
-        </p>
+      <div class="space-y-6">
+        <!-- Exemplo 1: Header simples -->
+        <div class="border rounded-lg overflow-hidden">
+          <z-header-toolbar zSize="sm">
+            <z-header-title> Header Simples </z-header-title>
+          </z-header-toolbar>
+          <div class="p-4 bg-muted/30">
+            <p class="text-sm text-muted-foreground">Header apenas com título, sem ações</p>
+          </div>
+        </div>
+
+        <!-- Exemplo 2: Header com tamanho grande -->
+        <div class="border rounded-lg overflow-hidden">
+          <z-header-toolbar zSize="lg">
+            <z-header-back-action>
+              <button z-button zType="ghost">
+                <z-icon zType="arrow-left" />
+              </button>
+            </z-header-back-action>
+
+            <z-header-title> Header Grande </z-header-title>
+
+            <z-header-actions>
+              <button z-button zType="default" zSize="sm">Salvar</button>
+            </z-header-actions>
+          </z-header-toolbar>
+          <div class="p-4 bg-muted/30">
+            <p class="text-sm text-muted-foreground">Header com tamanho grande e botão de ação</p>
+          </div>
+        </div>
+
+        <!-- Exemplo 3: Header customizado -->
+        <div class="border rounded-lg overflow-hidden">
+          <z-header-toolbar class="bg-primary text-primary-foreground border-none">
+            <z-header-back-action>
+              <button
+                z-button
+                zType="ghost"
+                class="text-primary-foreground hover:bg-primary-foreground/10"
+              >
+                <z-icon zType="arrow-left" />
+              </button>
+            </z-header-back-action>
+
+            <z-header-title class="text-primary-foreground"> Header Customizado </z-header-title>
+
+            <z-header-actions>
+              <button
+                z-button
+                zType="ghost"
+                class="text-primary-foreground hover:bg-primary-foreground/10"
+              >
+                <z-icon zType="arrow-up-right" />
+              </button>
+              <button
+                z-button
+                zType="ghost"
+                class="text-primary-foreground hover:bg-primary-foreground/10"
+              >
+                <z-icon zType="heart" />
+              </button>
+            </z-header-actions>
+          </z-header-toolbar>
+          <div class="p-4 bg-muted/30">
+            <p class="text-sm text-muted-foreground">
+              Header com cores customizadas usando classes do Tailwind
+            </p>
+          </div>
+        </div>
+
+        <!-- Exemplo 4: Header com múltiplas ações -->
+        <div class="border rounded-lg overflow-hidden">
+          <z-header-toolbar>
+            <z-header-back-action>
+              <button z-button zType="ghost" zSize="sm">
+                <z-icon zType="arrow-left" />
+              </button>
+            </z-header-back-action>
+
+            <z-header-title> Dashboard </z-header-title>
+
+            <z-header-actions>
+              <button z-button zType="ghost" zSize="sm">
+                <z-icon zType="bell" />
+              </button>
+              <button z-button zType="ghost" zSize="sm">
+                <z-icon zType="settings" />
+              </button>
+              <button z-button zType="default" zSize="sm">Criar Novo</button>
+            </z-header-actions>
+          </z-header-toolbar>
+          <div class="p-4 bg-muted/30">
+            <p class="text-sm text-muted-foreground">Header com múltiplas ações e botão primário</p>
+          </div>
+        </div>
       </div>
     </div>
-
-    <!-- Exemplo 2: Header com tamanho grande -->
-    <div class="border rounded-lg overflow-hidden">
-      <z-header-toolbar zSize="lg">
-        <z-header-back-action>
-          <button z-button zType="ghost">
-            <z-icon zType="arrow-left" />
-          </button>
-        </z-header-back-action>
-
-        <z-header-title>
-          Header Grande
-        </z-header-title>
-
-        <z-header-actions>
-          <button z-button zType="default" zSize="sm">
-            Salvar
-          </button>
-        </z-header-actions>
-      </z-header-toolbar>
-      <div class="p-4 bg-muted/30">
-        <p class="text-sm text-muted-foreground">
-          Header com tamanho grande e botão de ação
-        </p>
-      </div>
-    </div>
-
-    <!-- Exemplo 3: Header customizado -->
-    <div class="border rounded-lg overflow-hidden">
-      <z-header-toolbar class="bg-primary text-primary-foreground border-none">
-        <z-header-back-action>
-          <button z-button zType="ghost" class="text-primary-foreground hover:bg-primary-foreground/10">
-            <z-icon zType="arrow-left" />
-          </button>
-        </z-header-back-action>
-
-        <z-header-title class="text-primary-foreground">
-          Header Customizado
-        </z-header-title>
-
-        <z-header-actions>
-          <button z-button zType="ghost" class="text-primary-foreground hover:bg-primary-foreground/10">
-            <z-icon zType="arrow-up-right" />
-          </button>
-          <button z-button zType="ghost" class="text-primary-foreground hover:bg-primary-foreground/10">
-            <z-icon zType="heart" />
-          </button>
-        </z-header-actions>
-      </z-header-toolbar>
-      <div class="p-4 bg-muted/30">
-        <p class="text-sm text-muted-foreground">
-          Header com cores customizadas usando classes do Tailwind
-        </p>
-      </div>
-    </div>
-
-    <!-- Exemplo 4: Header com múltiplas ações -->
-    <div class="border rounded-lg overflow-hidden">
-      <z-header-toolbar>
-        <z-header-back-action>
-          <button z-button zType="ghost" zSize="sm">
-            <z-icon zType="arrow-left" />
-          </button>
-        </z-header-back-action>
-
-        <z-header-title>
-          Dashboard
-        </z-header-title>
-
-        <z-header-actions>
-          <button z-button zType="ghost" zSize="sm">
-            <z-icon zType="bell" />
-          </button>
-          <button z-button zType="ghost" zSize="sm">
-            <z-icon zType="settings" />
-          </button>
-          <button z-button zType="default" zSize="sm">
-            Criar Novo
-          </button>
-        </z-header-actions>
-      </z-header-toolbar>
-      <div class="p-4 bg-muted/30">
-        <p class="text-sm text-muted-foreground">
-          Header com múltiplas ações e botão primário
-        </p>
-      </div>
-    </div>
-  </div>
-</div>
+  </z-scaffold-body>
+</z-scaffold>

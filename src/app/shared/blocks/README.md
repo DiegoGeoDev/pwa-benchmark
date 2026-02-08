@@ -355,7 +355,7 @@ export class HomePage {
 Todos os componentes aceitam `class` input para customização:
 
 ```html
-<z-scaffold class="bg-gradient-to-b from-blue-500 to-purple-500">
+<z-scaffold class="bg-linear-to-b from-blue-500 to-purple-500">
   <z-app-bar class="bg-transparent border-none">
     <z-header-toolbar class="text-white">
       <!-- ... -->

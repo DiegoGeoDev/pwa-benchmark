@@ -2,6 +2,11 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 import {
+  ScaffoldComponent,
+  AppBarComponent,
+  ScaffoldBodyComponent,
+} from '@/shared/blocks/scaffold';
+import {
   HeaderToolbarComponent,
   HeaderBackActionComponent,
   HeaderTitleComponent,
@@ -9,14 +14,19 @@ import {
 } from '@/shared/blocks/header';
 import { ZardButtonComponent } from '@/shared/components/button';
 import { ZardIconComponent } from '@/shared/components/icon';
+import { DarkModeToggleComponent } from '@/shared/blocks/dark-mode-toggle';
 
 @Component({
   selector: 'app-benchmark-01',
   imports: [
+    ScaffoldComponent,
+    AppBarComponent,
+    ScaffoldBodyComponent,
     HeaderToolbarComponent,
     HeaderBackActionComponent,
     HeaderTitleComponent,
     HeaderActionsComponent,
+    DarkModeToggleComponent,
     ZardButtonComponent,
     ZardIconComponent,
   ],

@@ -1,3 +1,36 @@
-<section class="min-h-[calc(100vh-120px)] grid place-items-center px-8">
-  <z-button routerLink="/benchmark-01" zType="link">Benchmark 01</z-button>
-</section>
+<!-- Scaffold Pattern -->
+<z-scaffold>
+  <!-- App Bar -->
+  <z-app-bar>
+    <z-header-toolbar>
+      <button
+        z-button
+        zType="ghost"
+        zSize="sm"
+        (click)="openNavigationDrawer()"
+        aria-label="Open menu"
+        class="md:hidden"
+      >
+        <z-icon zType="panel-left" />
+      </button>
+
+      <z-header-title>PWA Benchmark</z-header-title>
+
+      <z-header-actions>
+        <z-dark-mode-toggle />
+      </z-header-actions>
+    </z-header-toolbar>
+  </z-app-bar>
+
+  <!-- Main Content -->
+  <z-scaffold-body class="flex-1 flex justify-center items-center">
+    <p>Main Content</p>
+  </z-scaffold-body>
+
+  <!-- Bottom Navigation -->
+  <z-bottom-navigation-bar>
+    <z-nav-item routerLink="/" [zExact]="true" zIcon="house" zLabel="Home" />
+    <z-nav-item routerLink="/benchmark-01" zIcon="activity" zLabel="Benchmark" />
+    <z-nav-item routerLink="/settings" zIcon="settings" zLabel="Settings" />
+  </z-bottom-navigation-bar>
+</z-scaffold>
