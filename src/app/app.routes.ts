@@ -4,7 +4,7 @@ import { Home } from './pages/home/home';
 import { Benchmark01 } from './pages/benchmark-01/benchmark-01';
 
 export const routes: Routes = [
-    {
+  {
     path: '',
     redirectTo: '/home',
     pathMatch: 'full',
