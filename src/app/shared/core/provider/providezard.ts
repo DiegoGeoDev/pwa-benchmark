@@ -8,8 +8,7 @@ import { EVENT_MANAGER_PLUGINS } from '@angular/platform-browser';
 
 import { ZardDebounceEventManagerPlugin } from './event-manager-plugins/zard-debounce-event-manager-plugin';
 import { ZardEventManagerPlugin } from './event-manager-plugins/zard-event-manager-plugin';
-
-import { ZardDarkMode } from '@/shared/blocks/dark-mode-toggle/dark-mode.service';
+import { ZardDarkMode } from '../../blocks/dark-mode-toggle/dark-mode.service';
 
 export function provideZard(): EnvironmentProviders {
   const eventManagerPlugins = [

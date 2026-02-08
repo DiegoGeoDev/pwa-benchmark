@@ -1,9 +1,79 @@
-<z-layout class="w-screen h-screen flex flex-col overflow-y-auto rounded-lg">
-  <z-content class="flex-1 min-h-[calc(100vh-120px)] flex flex-col p-0">
-    <router-outlet />
-  </z-content>
+<!-- Scaffold Pattern -->
+<z-scaffold>
+  <!-- App Bar -->
+  <z-app-bar>
+    <z-header-toolbar>
+      <button
+        z-button
+        zType="ghost"
+        zSize="sm"
+        (click)="toggleDrawer()"
+        aria-label="Open menu"
+        class="md:hidden"
+      >
+        <z-icon zType="panel-left" />
+      </button>
 
-  <z-footer class="h-15 min-h-15 max-h-15 w-full flex justify-center border-0">
-    <h1>Footer</h1>
-  </z-footer>
-</z-layout>
+      <z-header-title>PWA Benchmark</z-header-title>
+
+      <z-header-actions>
+        <z-dark-mode-toggle />
+      </z-header-actions>
+    </z-header-toolbar>
+  </z-app-bar>
+
+  <!-- Main Content -->
+  <z-scaffold-body>
+    <router-outlet />
+  </z-scaffold-body>
+
+  <!-- Bottom Navigation -->
+  <z-bottom-navigation-bar>
+    <z-nav-item routerLink="/" [zExact]="true" zIcon="house" zLabel="Home" />
+    <z-nav-item routerLink="/benchmark-01" zIcon="activity" zLabel="Benchmark" />
+    <z-nav-item routerLink="/settings" zIcon="settings" zLabel="Settings" />
+  </z-bottom-navigation-bar>
+</z-scaffold>
+
+<!-- Drawer (Menu Lateral) -->
+<z-drawer [zOpen]="isDrawerOpen()" (onClose)="closeDrawer()">
+  <z-drawer-header>
+    <h2 class="text-lg font-semibold">Menu</h2>
+    <button z-button zType="ghost" zSize="sm" (click)="closeDrawer()" aria-label="Close menu">
+      <z-icon zType="x" />
+    </button>
+  </z-drawer-header>
+
+  <z-drawer-body>
+    <nav class="flex flex-col gap-2">
+      <a
+        routerLink="/"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
+        (click)="closeDrawer()"
+      >
+        <z-icon zType="house" />
+        <span>Home</span>
+      </a>
+      <a
+        routerLink="/benchmark-01"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
+        (click)="closeDrawer()"
+      >
+        <z-icon zType="activity" />
+        <span>Benchmark 01</span>
+      </a>
+      <a
+        routerLink="/settings"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-accent transition-colors"
+        (click)="closeDrawer()"
+      >
+        <z-icon zType="settings" />
+        <span>Settings</span>
+      </a>
+    </nav>
+  </z-drawer-body>
+
+  <z-drawer-footer>
+    <p class="text-sm text-muted-foreground">PWA v1.0.0</p>
+  </z-drawer-footer>
+</z-drawer>
