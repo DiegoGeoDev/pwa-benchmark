@@ -5,7 +5,6 @@ import {
   AppBarComponent,
   ScaffoldBodyComponent,
 } from '@/shared/blocks/scaffold';
-import { BottomNavigationBarComponent, NavItemComponent } from '@/shared/blocks/bottom-navigation';
 import {
   HeaderToolbarComponent,
   HeaderTitleComponent,
@@ -16,7 +15,7 @@ import { ZardButtonComponent } from '@/shared/components/button';
 import { ZardIconComponent } from '@/shared/components/icon';
 import { ZardSheetService } from '@/shared/components/sheet';
 
-import { NavigationDrawerContentComponent } from './components';
+import { NavigationDrawerContentComponent } from './components/navigation-drawer-content';
 
 @Component({
   selector: 'app-home',
@@ -24,8 +23,6 @@ import { NavigationDrawerContentComponent } from './components';
     ScaffoldComponent,
     AppBarComponent,
     ScaffoldBodyComponent,
-    BottomNavigationBarComponent,
-    NavItemComponent,
     HeaderToolbarComponent,
     HeaderTitleComponent,
     HeaderActionsComponent,
