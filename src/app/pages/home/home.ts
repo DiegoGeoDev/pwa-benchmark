@@ -16,6 +16,7 @@ import { ZardIconComponent } from '@/shared/components/icon';
 import { ZardSheetService } from '@/shared/components/sheet';
 
 import { NavigationDrawerContentComponent } from './components/navigation-drawer-content';
+import { FloatingActionButtonComponent } from '@/shared/blocks/fab';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ import { NavigationDrawerContentComponent } from './components/navigation-drawer
     DarkModeToggleComponent,
     ZardButtonComponent,
     ZardIconComponent,
+    FloatingActionButtonComponent,
   ],
   templateUrl: './home.html',
   styleUrl: './home.css',
