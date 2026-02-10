@@ -1,18 +1,13 @@
 /**
  * Exemplos de uso do Header Toolbar
- * 
+ *
  * Este arquivo demonstra diferentes cenários de uso do componente header toolbar
  */
 
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import {
-  HeaderToolbarComponent,
-  HeaderBackActionComponent,
-  HeaderTitleComponent,
-  HeaderActionsComponent,
-} from './index';
+import { HeaderToolbarComponent, HeaderTitleComponent, HeaderActionsComponent } from './index';
 import { ZardButtonComponent } from '../../components/button';
 import { ZardIconComponent } from '../../components/icon';
 
@@ -37,18 +32,18 @@ export class SimpleHeaderExample {}
   selector: 'app-navigation-header-example',
   imports: [
     HeaderToolbarComponent,
-    HeaderBackActionComponent,
     HeaderTitleComponent,
     ZardButtonComponent,
     ZardIconComponent,
+    HeaderActionsComponent,
   ],
   template: `
     <z-header-toolbar>
-      <z-header-back-action>
+      <z-header-actions>
         <button z-button zType="ghost" zSize="sm" (click)="goBack()">
           <z-icon zType="arrow-left" />
         </button>
-      </z-header-back-action>
+      </z-header-actions>
 
       <z-header-title>Detalhes</z-header-title>
     </z-header-toolbar>
@@ -69,7 +64,6 @@ export class NavigationHeaderExample {
   selector: 'app-actions-header-example',
   imports: [
     HeaderToolbarComponent,
-    HeaderBackActionComponent,
     HeaderTitleComponent,
     HeaderActionsComponent,
     ZardButtonComponent,
@@ -77,11 +71,11 @@ export class NavigationHeaderExample {
   ],
   template: `
     <z-header-toolbar>
-      <z-header-back-action>
+      <z-header-actions>
         <button z-button zType="ghost" zSize="sm" (click)="goBack()">
           <z-icon zType="arrow-left" />
         </button>
-      </z-header-back-action>
+      </z-header-actions>
 
       <z-header-title>Editar Perfil</z-header-title>
 
@@ -89,9 +83,7 @@ export class NavigationHeaderExample {
         <button z-button zType="ghost" zSize="sm" (click)="handleSettings()">
           <z-icon zType="settings" />
         </button>
-        <button z-button zType="default" zSize="sm" (click)="handleSave()">
-          Salvar
-        </button>
+        <button z-button zType="default" zSize="sm" (click)="handleSave()">Salvar</button>
       </z-header-actions>
     </z-header-toolbar>
   `,
@@ -119,7 +111,6 @@ export class ActionsHeaderExample {
   selector: 'app-sticky-header-example',
   imports: [
     HeaderToolbarComponent,
-    HeaderBackActionComponent,
     HeaderTitleComponent,
     HeaderActionsComponent,
     ZardButtonComponent,
@@ -127,11 +118,11 @@ export class ActionsHeaderExample {
   ],
   template: `
     <z-header-toolbar [zSticky]="true" zSize="lg">
-      <z-header-back-action>
+      <z-header-actions>
         <button z-button zType="ghost" (click)="goBack()">
           <z-icon zType="arrow-left" />
         </button>
-      </z-header-back-action>
+      </z-header-actions>
 
       <z-header-title>Lista de Produtos</z-header-title>
 
@@ -175,7 +166,6 @@ export class StickyHeaderExample {
   selector: 'app-custom-header-example',
   imports: [
     HeaderToolbarComponent,
-    HeaderBackActionComponent,
     HeaderTitleComponent,
     HeaderActionsComponent,
     ZardButtonComponent,
@@ -183,36 +173,34 @@ export class StickyHeaderExample {
   ],
   template: `
     <z-header-toolbar class="bg-primary text-primary-foreground border-none shadow-md">
-      <z-header-back-action>
-        <button 
-          z-button 
-          zType="ghost" 
-          zSize="sm" 
+      <z-header-actions>
+        <button
+          z-button
+          zType="ghost"
+          zSize="sm"
           class="text-primary-foreground hover:bg-primary-foreground/10"
           (click)="goBack()"
         >
           <z-icon zType="arrow-left" />
         </button>
-      </z-header-back-action>
+      </z-header-actions>
 
-      <z-header-title class="text-primary-foreground font-bold">
-        Dashboard Premium
-      </z-header-title>
+      <z-header-title class="text-primary-foreground font-bold"> Dashboard Premium </z-header-title>
 
       <z-header-actions>
-        <button 
-          z-button 
-          zType="ghost" 
-          zSize="sm" 
+        <button
+          z-button
+          zType="ghost"
+          zSize="sm"
           class="text-primary-foreground hover:bg-primary-foreground/10"
           (click)="handleNotifications()"
         >
           <z-icon zType="bell" />
         </button>
-        <button 
-          z-button 
-          zType="ghost" 
-          zSize="sm" 
+        <button
+          z-button
+          zType="ghost"
+          zSize="sm"
           class="text-primary-foreground hover:bg-primary-foreground/10"
           (click)="handleProfile()"
         >
@@ -245,7 +233,6 @@ export class CustomHeaderExample {
   selector: 'app-subtitle-header-example',
   imports: [
     HeaderToolbarComponent,
-    HeaderBackActionComponent,
     HeaderTitleComponent,
     HeaderActionsComponent,
     ZardButtonComponent,
@@ -253,15 +240,17 @@ export class CustomHeaderExample {
   ],
   template: `
     <z-header-toolbar zSize="lg">
-      <z-header-back-action>
+      <z-header-actions>
         <button z-button zType="ghost" (click)="goBack()">
           <z-icon zType="arrow-left" />
         </button>
-      </z-header-back-action>
+      </z-header-actions>
 
       <z-header-title class="flex flex-col gap-0.5 items-center">
         <span class="font-bold text-base">Projeto Angular</span>
-        <span class="text-xs text-muted-foreground font-normal">Última atualização: há 5 minutos</span>
+        <span class="text-xs text-muted-foreground font-normal"
+          >Última atualização: há 5 minutos</span
+        >
       </z-header-title>
 
       <z-header-actions>
@@ -288,7 +277,6 @@ export class SubtitleHeaderExample {
   selector: 'app-conditional-header-example',
   imports: [
     HeaderToolbarComponent,
-    HeaderBackActionComponent,
     HeaderTitleComponent,
     HeaderActionsComponent,
     ZardButtonComponent,
@@ -297,23 +285,19 @@ export class SubtitleHeaderExample {
   template: `
     <z-header-toolbar>
       @if (showBackButton) {
-        <z-header-back-action>
+        <z-header-actions>
           <button z-button zType="ghost" zSize="sm" (click)="goBack()">
             <z-icon zType="arrow-left" />
           </button>
-        </z-header-back-action>
+        </z-header-actions>
       }
 
       <z-header-title>{{ pageTitle }}</z-header-title>
 
       @if (isEditMode) {
         <z-header-actions>
-          <button z-button zType="ghost" zSize="sm" (click)="handleCancel()">
-            Cancelar
-          </button>
-          <button z-button zType="default" zSize="sm" (click)="handleSave()">
-            Salvar
-          </button>
+          <button z-button zType="ghost" zSize="sm" (click)="handleCancel()">Cancelar</button>
+          <button z-button zType="default" zSize="sm" (click)="handleSave()">Salvar</button>
         </z-header-actions>
       } @else {
         <z-header-actions>
@@ -360,7 +344,6 @@ export class ConditionalHeaderExample {
   selector: 'app-loading-header-example',
   imports: [
     HeaderToolbarComponent,
-    HeaderBackActionComponent,
     HeaderTitleComponent,
     HeaderActionsComponent,
     ZardButtonComponent,
@@ -368,11 +351,11 @@ export class ConditionalHeaderExample {
   ],
   template: `
     <z-header-toolbar>
-      <z-header-back-action>
+      <z-header-actions>
         <button z-button zType="ghost" zSize="sm" (click)="goBack()">
           <z-icon zType="arrow-left" />
         </button>
-      </z-header-back-action>
+      </z-header-actions>
 
       <z-header-title>Carregando Dados</z-header-title>
 
@@ -380,9 +363,7 @@ export class ConditionalHeaderExample {
         @if (isLoading) {
           <z-icon zType="loader-circle" class="animate-spin text-muted-foreground" />
         } @else {
-          <button z-button zType="default" zSize="sm" (click)="handleRefresh()">
-            Atualizar
-          </button>
+          <button z-button zType="default" zSize="sm" (click)="handleRefresh()">Atualizar</button>
         }
       </z-header-actions>
     </z-header-toolbar>

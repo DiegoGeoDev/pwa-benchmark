@@ -23,7 +23,6 @@ import { DarkModeToggleComponent } from '@/shared/blocks/dark-mode-toggle';
     AppBarComponent,
     ScaffoldBodyComponent,
     HeaderToolbarComponent,
-    HeaderBackActionComponent,
     HeaderTitleComponent,
     HeaderActionsComponent,
     DarkModeToggleComponent,

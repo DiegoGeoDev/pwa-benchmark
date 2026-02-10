@@ -27,22 +27,6 @@ export const headerVariants = cva(
   },
 );
 
-export const headerBackActionVariants = cva(
-  mergeClasses('flex items-center justify-start min-w-0', 'shrink-0'),
-  {
-    variants: {
-      zSize: {
-        sm: 'gap-1',
-        default: 'gap-2',
-        lg: 'gap-3',
-      },
-    },
-    defaultVariants: {
-      zSize: 'default',
-    },
-  },
-);
-
 export const headerTitleVariants = cva(
   mergeClasses(
     'flex items-center justify-center flex-1',
