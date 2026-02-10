@@ -8,7 +8,6 @@ import {
 } from '@/shared/blocks/scaffold';
 import {
   HeaderToolbarComponent,
-  HeaderBackActionComponent,
   HeaderTitleComponent,
   HeaderActionsComponent,
 } from '@/shared/blocks/header';
