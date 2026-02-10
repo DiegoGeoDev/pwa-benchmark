@@ -3,16 +3,18 @@
   <!-- App Bar -->
   <z-app-bar>
     <z-header-toolbar>
-      <button
-        z-button
-        zType="ghost"
-        zSize="sm"
-        (click)="openNavigationDrawer()"
-        aria-label="Open menu"
-        class="md:hidden"
-      >
-        <z-icon zType="panel-left" />
-      </button>
+      <z-header-actions>
+        <button
+          z-button
+          zType="ghost"
+          zSize="sm"
+          (click)="openNavigationDrawer()"
+          aria-label="Open menu"
+          class="md:hidden"
+        >
+          <z-icon zType="panel-left" />
+        </button>
+      </z-header-actions>
 
       <z-header-title>Home</z-header-title>
 
@@ -23,7 +25,14 @@
   </z-app-bar>
 
   <!-- Main Content -->
-  <z-scaffold-body class="flex-1 flex justify-center items-center">
-    <p>Home Content</p>
+  <z-scaffold-body [zRefreshable]="true" (onRefresh)="handleRefresh()" #body class="flex-1">
+    <z-icon pull-indicator zType="chevron-down" />
+    <z-icon refresh-indicator zType="loader-circle" />
+
+    <div class="p-4 space-y-4">
+      @for (item of items(); track item) {
+        <div class="p-4 rounded-lg border border-border">{{ item }}</div>
+      }
+    </div>
   </z-scaffold-body>
 </z-scaffold>

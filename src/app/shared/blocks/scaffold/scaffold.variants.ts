@@ -26,7 +26,7 @@ export const appBarVariants = cva(
   mergeClasses(
     'w-full shrink-0',
     'bg-background',
-    'border-b border-border',
+
     'z-10',
   ),
   {

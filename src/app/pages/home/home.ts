@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal, viewChild } from '@angular/core';
 
 import {
   ScaffoldComponent,
@@ -35,6 +35,17 @@ import { NavigationDrawerContentComponent } from './components/navigation-drawer
 })
 export class Home {
   private readonly sheetService = inject(ZardSheetService);
+
+  readonly body = viewChild.required<ScaffoldBodyComponent>('body');
+
+  readonly items = signal(['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5']);
+
+  handleRefresh(): void {
+    setTimeout(() => {
+      this.items.set(['Novo Item 1', 'Novo Item 2', 'Novo Item 3']);
+      this.body().resetRefresh();
+    }, 1500);
+  }
 
   openNavigationDrawer(): void {
     this.sheetService.create({

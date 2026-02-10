@@ -5,7 +5,8 @@ import { mergeClasses } from '../../utils/merge-classes';
 export const headerVariants = cva(
   mergeClasses(
     'flex items-center justify-between w-full',
-    'bg-background border-b border-border',
+    'bg-background',
+    'border-b border-border',
     'px-4 py-3',
   ),
   {

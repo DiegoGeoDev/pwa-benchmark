@@ -200,7 +200,9 @@ export class RefreshScaffoldExample {
       </z-app-bar>
 
       <z-scaffold-body>
-        <div class="h-64 bg-linear-to-b from-primary to-primary/60 -mt-14 flex items-center justify-center">
+        <div
+          class="h-64 bg-linear-to-b from-primary to-primary/60 -mt-14 flex items-center justify-center"
+        >
           <p class="text-white text-lg font-semibold">Hero Image</p>
         </div>
         <div class="p-4">
@@ -238,9 +240,7 @@ export class TransparentBarScaffoldExample {
 
       <z-scaffold-body zPadding="default" (onScroll)="handleScroll($event)">
         @for (i of Array(20); track $index) {
-          <div class="p-4 mb-2 rounded border border-border">
-            Item {{ $index + 1 }}
-          </div>
+          <div class="p-4 mb-2 rounded border border-border">Item {{ $index + 1 }}</div>
         }
       </z-scaffold-body>
     </z-scaffold>
@@ -281,9 +281,7 @@ export class ScrollScaffoldExample {
           O header acima não é sticky — ele rola junto com o conteúdo.
         </p>
         @for (i of Array(30); track $index) {
-          <div class="p-3 mb-2 rounded border border-border">
-            Conteúdo {{ $index + 1 }}
-          </div>
+          <div class="p-3 mb-2 rounded border border-border">Conteúdo {{ $index + 1 }}</div>
         }
       </z-scaffold-body>
     </z-scaffold>
@@ -298,7 +296,13 @@ export class NonStickyScaffoldExample {
  */
 @Component({
   selector: 'app-padding-scaffold-example',
-  imports: [ScaffoldComponent, AppBarComponent, ScaffoldBodyComponent, HeaderToolbarComponent, HeaderTitleComponent],
+  imports: [
+    ScaffoldComponent,
+    AppBarComponent,
+    ScaffoldBodyComponent,
+    HeaderToolbarComponent,
+    HeaderTitleComponent,
+  ],
   template: `
     <z-scaffold>
       <z-app-bar>
