@@ -15,6 +15,8 @@ import { ZardButtonComponent } from '@/shared/components/button';
 import { ZardIconComponent } from '@/shared/components/icon';
 import { ZardSheetService } from '@/shared/components/sheet';
 
+import { Anchor } from 'lucide-angular';
+
 import { NavigationDrawerContentComponent } from './components/navigation-drawer-content';
 import { FloatingActionButtonComponent } from '@/shared/blocks/fab';
 
@@ -36,6 +38,8 @@ import { FloatingActionButtonComponent } from '@/shared/blocks/fab';
   styleUrl: './home.css',
 })
 export class Home {
+  // Expondo o ícone Anchor para uso no template
+  readonly AnchorIcon = Anchor;
   private readonly sheetService = inject(ZardSheetService);
 
   readonly body = viewChild.required<ScaffoldBodyComponent>('body');

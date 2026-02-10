@@ -35,6 +35,16 @@
       }
     </div>
 
-    <z-fab zIcon="plus" ariaLabel="Refresh" (onClick)="handleRefresh()"  />
+    <z-fab zIcon="plus" ariaLabel="Add" (onClick)="handleRefresh()" />
+
+    <z-fab
+      ariaLabel="Refresh with Anchor"
+      (onClick)="handleRefresh()"
+      [zExtended]="true"
+      zLabel="Refresh"
+      zPosition="bottom-left"
+    >
+      <z-icon [zType]="AnchorIcon" />
+    </z-fab>
   </z-scaffold-body>
 </z-scaffold>
