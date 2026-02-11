@@ -14,6 +14,7 @@ import {
 import { ZardButtonComponent } from '@/shared/components/button';
 import { ZardIconComponent } from '@/shared/components/icon';
 import { DarkModeToggleComponent } from '@/shared/blocks/dark-mode-toggle';
+import { BottomNavigationBarComponent, NavItemComponent } from '@/shared/blocks/bottom-navigation';
 
 @Component({
   selector: 'app-benchmark-01',
@@ -27,6 +28,8 @@ import { DarkModeToggleComponent } from '@/shared/blocks/dark-mode-toggle';
     DarkModeToggleComponent,
     ZardButtonComponent,
     ZardIconComponent,
+    BottomNavigationBarComponent,
+    NavItemComponent,
   ],
   templateUrl: './benchmark-01.html',
   styleUrl: './benchmark-01.css',

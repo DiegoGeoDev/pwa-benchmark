@@ -3,7 +3,7 @@ import {
   Component,
   computed,
   input,
-  output,
+  signal,
   ViewEncapsulation,
   booleanAttribute,
 } from '@angular/core';
@@ -22,44 +22,25 @@ import {
 } from './bottom-navigation.variants';
 
 @Component({
-  selector: 'z-nav-item, a[z-nav-item], button[z-nav-item]',
+  selector: 'z-nav-item',
   imports: [ZardIconComponent, RouterLink, RouterLinkActive],
   template: `
-    @if (routerLink()) {
-      <a
-        [routerLink]="routerLink()"
-        routerLinkActive="active-link"
-        [routerLinkActiveOptions]="{ exact: zExact() }"
-        [class]="classes()"
-        [attr.aria-label]="ariaLabel()"
-        [attr.aria-current]="zActive() ? 'page' : null"
-        (click)="handleClick()"
-        #rla="routerLinkActive"
-      >
-        @if (zIcon()) {
-          <z-icon [zType]="zIcon()!" [class]="iconClasses()" [attr.aria-hidden]="true" />
-        }
-        @if (zShowLabel()) {
-          <span [class]="labelClasses()">{{ zLabel() }}</span>
-        }
-      </a>
-    } @else {
-      <button
-        type="button"
-        [class]="classes()"
-        [attr.aria-label]="ariaLabel()"
-        [attr.aria-current]="zActive() ? 'page' : null"
-        [disabled]="zDisabled() || null"
-        (click)="handleClick()"
-      >
-        @if (zIcon()) {
-          <z-icon [zType]="zIcon()!" [class]="iconClasses()" [attr.aria-hidden]="true" />
-        }
-        @if (zShowLabel()) {
-          <span [class]="labelClasses()">{{ zLabel() }}</span>
-        }
-      </button>
-    }
+    <a
+      [routerLink]="routerLink()"
+      routerLinkActive
+      [routerLinkActiveOptions]="{ exact: zExact() }"
+      [class]="classes()"
+      [attr.aria-label]="ariaLabel()"
+      [attr.aria-current]="isActive() ? 'page' : null"
+      (isActiveChange)="isRouterActive.set($event)"
+    >
+      @if (zIcon()) {
+        <z-icon [zType]="zIcon()!" [class]="iconClasses()" [attr.aria-hidden]="true" />
+      }
+      @if (zShowLabel()) {
+        <span [class]="labelClasses()">{{ zLabel() }}</span>
+      }
+    </a>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
@@ -73,20 +54,20 @@ export class NavItemComponent {
   readonly zIcon = input<ZardIcon>();
   readonly zLabel = input<string>('');
   readonly zActive = input<boolean, any>(false, { transform: booleanAttribute });
-  readonly zDisabled = input<boolean, any>(false, { transform: booleanAttribute });
   readonly zShowLabel = input<boolean, any>(true, { transform: booleanAttribute });
   readonly zSize = input<ZardNavItemSizeVariants>('default');
-  readonly routerLink = input<string | any[]>();
+  readonly routerLink = input.required<string | any[]>();
   readonly zExact = input<boolean>(false);
   readonly ariaLabel = input<string>('');
 
-  readonly onClick = output<void>();
+  readonly isRouterActive = signal(false);
+
+  protected readonly isActive = computed(() => this.zActive() || this.isRouterActive());
 
   protected readonly classes = computed(() =>
     mergeClasses(
       navItemVariants({
-        zActive: this.zActive(),
-        zDisabled: this.zDisabled(),
+        zActive: this.isActive(),
         zShowLabel: this.zShowLabel(),
       }),
       this.class(),
@@ -108,10 +89,4 @@ export class NavItemComponent {
       }),
     ),
   );
-
-  protected handleClick(): void {
-    if (!this.zDisabled()) {
-      this.onClick.emit();
-    }
-  }
 }

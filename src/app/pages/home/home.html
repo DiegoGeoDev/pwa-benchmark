@@ -35,9 +35,9 @@
       }
     </div>
 
-    <z-fab zIcon="plus" ariaLabel="Add" (onClick)="handleRefresh()" />
+    <!-- <z-fab zIcon="plus" ariaLabel="Add" (onClick)="handleRefresh()" /> -->
 
-    <z-fab
+    <!-- <z-fab
       ariaLabel="Refresh with Anchor"
       (onClick)="handleRefresh()"
       [zExtended]="true"
@@ -45,6 +45,11 @@
       zPosition="bottom-left"
     >
       <z-icon [zType]="AnchorIcon" />
-    </z-fab>
+    </z-fab> -->
   </z-scaffold-body>
+
+  <z-bottom-navigation-bar>
+    <z-nav-item routerLink="/home" zIcon="house" zLabel="Home" />
+    <z-nav-item routerLink="/benchmark-01" zIcon="heart" zLabel="Benchmark 01" />
+  </z-bottom-navigation-bar>
 </z-scaffold>

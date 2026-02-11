@@ -24,33 +24,13 @@ import { BottomNavigationBarComponent, NavItemComponent } from '@/shared/blocks/
 })
 ```
 
-## Com Router Automático
+## Com Match Exato
 
 ```html
-<!-- Automatically highlights active route -->
 <z-bottom-navigation-bar>
   <z-nav-item routerLink="/" [zExact]="true" zIcon="house" zLabel="Home" />
   <z-nav-item routerLink="/favorites" zIcon="heart" zLabel="Favoritos" />
   <z-nav-item routerLink="/settings" zIcon="settings" zLabel="Config" />
-</z-bottom-navigation-bar>
-```
-
-## Com Click Manual
-
-```html
-<z-bottom-navigation-bar>
-  <z-nav-item 
-    zIcon="house" 
-    zLabel="Home" 
-    [zActive]="currentTab === 'home'"
-    (onClick)="changeTab('home')"
-  />
-  <z-nav-item 
-    zIcon="search" 
-    zLabel="Buscar"
-    [zActive]="currentTab === 'search'"
-    (onClick)="changeTab('search')"
-  />
 </z-bottom-navigation-bar>
 ```
 
@@ -71,18 +51,12 @@ import { BottomNavigationBarComponent, NavItemComponent } from '@/shared/blocks/
 | `class` | `ClassValue` | `''` | Classes CSS adicionais |
 | `zIcon` | `ZardIcon` | - | Ícone do item |
 | `zLabel` | `string` | `''` | Label do item |
-| `zActive` | `boolean` | `false` | Item ativo (manual) |
-| `zDisabled` | `boolean` | `false` | Desabilitar item |
+| `zActive` | `boolean` | `false` | Forçar item ativo (override manual) |
 | `zShowLabel` | `boolean` | `true` | Mostrar label |
 | `zSize` | `'sm' \| 'default' \| 'lg'` | `'default'` | Tamanho |
-| `routerLink` | `string \| any[]` | - | Link do router |
+| `routerLink` | `string \| any[]` | **required** | Link do router |
 | `zExact` | `boolean` | `false` | Match exato do router |
 | `ariaLabel` | `string` | `''` | Label acessível |
-
-### Eventos
-
-**NavItemComponent**
-- `onClick` - Emitido ao clicar
 
 ## Exemplos
 

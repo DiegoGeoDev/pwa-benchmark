@@ -19,6 +19,7 @@ import { Anchor } from 'lucide-angular';
 
 import { NavigationDrawerContentComponent } from './components/navigation-drawer-content';
 import { FloatingActionButtonComponent } from '@/shared/blocks/fab';
+import { BottomNavigationBarComponent, NavItemComponent } from '@/shared/blocks/bottom-navigation';
 
 @Component({
   selector: 'app-home',
@@ -33,6 +34,8 @@ import { FloatingActionButtonComponent } from '@/shared/blocks/fab';
     ZardButtonComponent,
     ZardIconComponent,
     FloatingActionButtonComponent,
+    BottomNavigationBarComponent,
+    NavItemComponent,
   ],
   templateUrl: './home.html',
   styleUrl: './home.css',

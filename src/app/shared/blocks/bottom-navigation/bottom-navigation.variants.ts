@@ -45,10 +45,6 @@ export const navItemVariants = cva(
         true: 'text-primary font-medium',
         false: '',
       },
-      zDisabled: {
-        true: 'opacity-50 pointer-events-none',
-        false: '',
-      },
       zShowLabel: {
         true: '',
         false: 'gap-0',
@@ -56,7 +52,6 @@ export const navItemVariants = cva(
     },
     defaultVariants: {
       zActive: false,
-      zDisabled: false,
       zShowLabel: true,
     },
   },
