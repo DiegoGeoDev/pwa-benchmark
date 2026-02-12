@@ -47,11 +47,35 @@ export class Home {
 
   readonly body = viewChild.required<ScaffoldBodyComponent>('body');
 
-  readonly items = signal(['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5']);
+  readonly items = signal([
+    'Item 1',
+    'Item 2',
+    'Item 3',
+    'Item 4',
+    'Item 5',
+    'Item 6,',
+    'Item 7',
+    'Item 8',
+    'Item 9',
+    'Item 10',
+    'Item 11',
+    'Item 12',
+    'Item 13',
+    'Item 14',
+    'Item 15',
+  ]);
 
   handleRefresh(): void {
     setTimeout(() => {
-      this.items.set(['Novo Item 1', 'Novo Item 2', 'Novo Item 3']);
+      this.items.set([
+        'Novo Item A',
+        'Novo Item B',
+        'Novo Item C',
+        'Novo Item D',
+        'Novo Item E',
+        'Novo Item F',
+        'Novo Item G',
+      ]);
       this.body().resetRefresh();
     }, 1500);
   }

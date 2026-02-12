@@ -2,12 +2,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   ElementRef,
-  inject,
   input,
   output,
   signal,
+  viewChild,
   ViewEncapsulation,
 } from '@angular/core';
 
@@ -17,6 +16,11 @@ import { mergeClasses } from '../../utils/merge-classes';
 
 import { scaffoldBodyVariants, type ZardScaffoldBodyPaddingVariants } from './scaffold.variants';
 
+const PULL_COMMIT_THRESHOLD = 10;
+const PULL_TRIGGER_THRESHOLD = 60;
+const PULL_MAX_DISTANCE = 120;
+const REFRESH_AUTO_RESET_MS = 2000;
+
 @Component({
   selector: 'z-scaffold-body',
   template: `
@@ -24,8 +28,8 @@ import { scaffoldBodyVariants, type ZardScaffoldBodyPaddingVariants } from './sc
       @if (zRefreshable() && isPulling()) {
         <div
           class="flex items-center justify-center py-4 transition-opacity"
-          [class.opacity-100]="pullDistance() > 60"
-          [class.opacity-50]="pullDistance() <= 60"
+          [class.opacity-100]="pullDistance() > PULL_TRIGGER_THRESHOLD"
+          [class.opacity-50]="pullDistance() <= PULL_TRIGGER_THRESHOLD"
         >
           @if (isRefreshing()) {
             <div class="animate-spin">
@@ -51,8 +55,6 @@ import { scaffoldBodyVariants, type ZardScaffoldBodyPaddingVariants } from './sc
   exportAs: 'zScaffoldBody',
 })
 export class ScaffoldBodyComponent {
-  private readonly elementRef = inject(ElementRef<HTMLElement>);
-
   readonly class = input<ClassValue>('');
   readonly zPadding = input<ZardScaffoldBodyPaddingVariants>('none');
   readonly zRefreshable = input<boolean>(false);
@@ -61,12 +63,17 @@ export class ScaffoldBodyComponent {
   readonly onScroll = output<{ scrollTop: number; scrollHeight: number; clientHeight: number }>();
 
   protected readonly Math = Math;
+  protected readonly PULL_TRIGGER_THRESHOLD = PULL_TRIGGER_THRESHOLD;
   protected readonly isPulling = signal(false);
   protected readonly isRefreshing = signal(false);
   protected readonly pullDistance = signal(0);
 
+  private readonly scrollContainer = viewChild.required<ElementRef<HTMLElement>>('bodyContent');
+
   private touchStartY = 0;
-  private scrollTop = 0;
+  private startedAtTop = false;
+  private directionCommitted = false;
+  private committedToPull = false;
 
   protected readonly classes = computed(() =>
     mergeClasses(
@@ -77,54 +84,63 @@ export class ScaffoldBodyComponent {
     ),
   );
 
-  constructor() {
-    effect(() => {
-      // Reset pull state after refresh completes
-      if (!this.isRefreshing()) {
-        this.isPulling.set(false);
-        this.pullDistance.set(0);
-      }
-    });
-  }
-
   protected handleTouchStart(event: TouchEvent): void {
-    const target = event.target as HTMLElement;
-    this.scrollTop = target.scrollTop || 0;
+    if (this.isRefreshing()) return;
+
+    const containerScrollTop = this.scrollContainer().nativeElement.scrollTop;
     this.touchStartY = event.touches[0].clientY;
+    this.startedAtTop = containerScrollTop <= 0;
+    this.directionCommitted = false;
+    this.committedToPull = false;
   }
 
   protected handleTouchMove(event: TouchEvent): void {
-    if (this.isRefreshing()) return;
+    if (this.isRefreshing() || !this.startedAtTop) return;
 
     const touchY = event.touches[0].clientY;
     const deltaY = touchY - this.touchStartY;
+    const containerScrollTop = this.scrollContainer().nativeElement.scrollTop;
 
-    // Only activate pull-to-refresh when at top of scroll
-    if (this.scrollTop <= 0 && deltaY > 0) {
-      this.isPulling.set(true);
-      this.pullDistance.set(Math.min(deltaY, 120));
+    if (!this.directionCommitted) {
+      if (Math.abs(deltaY) < PULL_COMMIT_THRESHOLD) return;
 
-      // Prevent default scroll behavior while pulling
-      if (deltaY > 10) {
-        event.preventDefault();
+      this.directionCommitted = true;
+
+      // User's first significant movement is downward while container is at top → pull-to-refresh
+      // Otherwise → normal scroll, bail out entirely
+      if (deltaY > 0 && containerScrollTop <= 0) {
+        this.committedToPull = true;
+      } else {
+        this.startedAtTop = false;
+        return;
       }
     }
+
+    if (!this.committedToPull) return;
+
+    // If somehow the container scrolled during the gesture, abort
+    if (containerScrollTop > 0) {
+      this.resetPullState();
+      return;
+    }
+
+    this.isPulling.set(true);
+    this.pullDistance.set(Math.min(deltaY, PULL_MAX_DISTANCE));
+    event.preventDefault();
   }
 
   protected handleTouchEnd(): void {
     if (this.isRefreshing()) return;
 
-    if (this.pullDistance() > 60) {
+    if (this.pullDistance() > PULL_TRIGGER_THRESHOLD) {
       this.isRefreshing.set(true);
       this.onRefresh.emit();
 
-      // Auto-reset after 2 seconds if parent doesn't reset manually
       setTimeout(() => {
         this.resetRefresh();
-      }, 2000);
+      }, REFRESH_AUTO_RESET_MS);
     } else {
-      this.isPulling.set(false);
-      this.pullDistance.set(0);
+      this.resetPullState();
     }
   }
 
@@ -137,12 +153,16 @@ export class ScaffoldBodyComponent {
     });
   }
 
-  /**
-   * Call this method from parent to reset refresh state after refresh is complete
-   */
   public resetRefresh(): void {
     this.isRefreshing.set(false);
+    this.resetPullState();
+  }
+
+  private resetPullState(): void {
     this.isPulling.set(false);
     this.pullDistance.set(0);
+    this.committedToPull = false;
+    this.directionCommitted = false;
+    this.startedAtTop = false;
   }
 }
