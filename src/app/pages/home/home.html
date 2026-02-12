@@ -25,10 +25,7 @@
   </z-app-bar>
 
   <!-- Main Content -->
-  <z-scaffold-body [zRefreshable]="true" (onRefresh)="handleRefresh()" #body class="flex-1">
-    <z-icon pull-indicator zType="chevron-down" />
-    <z-icon refresh-indicator zType="loader-circle" />
-
+  <z-scaffold-body class="flex-1">
     <div class="p-4 space-y-4">
       @for (item of items(); track item) {
         <div class="p-4 rounded-lg border border-border">{{ item }}</div>
@@ -48,6 +45,7 @@
     </z-fab> -->
   </z-scaffold-body>
 
+  <!-- Bottom Navigation Bar -->
   <z-bottom-navigation-bar>
     <z-nav-item routerLink="/home" zIcon="house" zLabel="Home" />
     <z-nav-item routerLink="/benchmark-01" zIcon="heart" zLabel="Benchmark 01" />

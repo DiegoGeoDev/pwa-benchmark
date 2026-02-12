@@ -6,7 +6,7 @@ Componente principal de layout, perfeito para PWAs que precisam se comportar com
 
 - **ScaffoldComponent** (`z-scaffold`) - Container principal
 - **AppBarComponent** (`z-app-bar`) - Barra superior
-- **ScaffoldBodyComponent** (`z-scaffold-body`) - Área de conteúdo scrollável com pull-to-refresh
+- **ScaffoldBodyComponent** (`z-scaffold-body`) - Área de conteúdo scrollável
 
 ## Props
 
@@ -32,16 +32,13 @@ Componente principal de layout, perfeito para PWAs que precisam se comportar com
 |------|------|--------|-----------|
 | `class` | `ClassValue` | `''` | Classes CSS adicionais |
 | `zPadding` | `'none' \| 'sm' \| 'default' \| 'lg'` | `'none'` | Padding do conteúdo |
-| `zRefreshable` | `boolean` | `false` | Ativa pull-to-refresh |
 
 ### Eventos
 
 **ScaffoldBodyComponent**
-- `onRefresh` - Emitido quando pull-to-refresh é ativado
 - `onScroll` - Emitido durante o scroll com posição
 
 ## Acessibilidade
 
 - Usa `role="main"` no scaffold
 - App bar marcado semanticamente
-- Pull-to-refresh acessível via touch

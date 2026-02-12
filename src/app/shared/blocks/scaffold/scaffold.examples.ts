@@ -124,54 +124,7 @@ export class FullScaffoldExample {
 export class SafeAreaScaffoldExample {}
 
 /**
- * Exemplo 4: Scaffold com pull-to-refresh
- */
-@Component({
-  selector: 'app-refresh-scaffold-example',
-  imports: [
-    ScaffoldComponent,
-    AppBarComponent,
-    ScaffoldBodyComponent,
-    HeaderToolbarComponent,
-    HeaderTitleComponent,
-    ZardIconComponent,
-  ],
-  template: `
-    <z-scaffold>
-      <z-app-bar>
-        <z-header-toolbar>
-          <z-header-title>Lista de Itens</z-header-title>
-        </z-header-toolbar>
-      </z-app-bar>
-
-      <z-scaffold-body [zRefreshable]="true" (onRefresh)="handleRefresh()" #body>
-        <z-icon pull-indicator zType="chevron-down" />
-        <z-icon refresh-indicator zType="loader-circle" />
-
-        <div class="p-4 space-y-4">
-          @for (item of items(); track item) {
-            <div class="p-4 rounded-lg border border-border">{{ item }}</div>
-          }
-        </div>
-      </z-scaffold-body>
-    </z-scaffold>
-  `,
-})
-export class RefreshScaffoldExample {
-  readonly body = viewChild.required<ScaffoldBodyComponent>('body');
-
-  readonly items = signal(['Item 1', 'Item 2', 'Item 3', 'Item 4', 'Item 5']);
-
-  handleRefresh(): void {
-    setTimeout(() => {
-      this.items.set(['Novo Item 1', 'Novo Item 2', 'Novo Item 3']);
-      this.body().resetRefresh();
-    }, 1500);
-  }
-}
-
-/**
- * Exemplo 5: Scaffold com app bar transparente
+ * Exemplo 4: Scaffold com app bar transparente
  */
 @Component({
   selector: 'app-transparent-bar-scaffold-example',
@@ -219,7 +172,7 @@ export class TransparentBarScaffoldExample {
 }
 
 /**
- * Exemplo 6: Scaffold com scroll listener
+ * Exemplo 5: Scaffold com scroll listener
  */
 @Component({
   selector: 'app-scroll-scaffold-example',
@@ -257,7 +210,7 @@ export class ScrollScaffoldExample {
 }
 
 /**
- * Exemplo 7: Scaffold com app bar não-sticky
+ * Exemplo 6: Scaffold com app bar não-sticky
  */
 @Component({
   selector: 'app-non-sticky-scaffold-example',
@@ -292,7 +245,7 @@ export class NonStickyScaffoldExample {
 }
 
 /**
- * Exemplo 8: Scaffold com diferentes paddings
+ * Exemplo 7: Scaffold com diferentes paddings
  */
 @Component({
   selector: 'app-padding-scaffold-example',
