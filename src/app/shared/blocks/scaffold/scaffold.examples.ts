@@ -6,7 +6,7 @@
 
 import { Component, signal, viewChild } from '@angular/core';
 
-import { ScaffoldComponent, AppBarComponent, ScaffoldBodyComponent } from './index';
+import { ScaffoldComponent, AppBarComponent, ScaffoldBodyComponent, BottomAppBarComponent } from './index';
 import {
   HeaderToolbarComponent,
   HeaderTitleComponent,
@@ -275,3 +275,44 @@ export class NonStickyScaffoldExample {
   `,
 })
 export class PaddingScaffoldExample {}
+
+/**
+ * Exemplo 8: Scaffold com bottom app bar
+ */
+@Component({
+  selector: 'app-bottom-bar-scaffold-example',
+  imports: [
+    ScaffoldComponent,
+    AppBarComponent,
+    ScaffoldBodyComponent,
+    BottomAppBarComponent,
+    HeaderToolbarComponent,
+    HeaderTitleComponent,
+  ],
+  template: `
+    <z-scaffold>
+      <z-app-bar>
+        <z-header-toolbar>
+          <z-header-title>App com Bottom Bar</z-header-title>
+        </z-header-toolbar>
+      </z-app-bar>
+
+      <z-scaffold-body zPadding="default">
+        @for (i of Array(30); track $index) {
+          <div class="p-4 mb-2 rounded border border-border">Item {{ $index + 1 }}</div>
+        }
+      </z-scaffold-body>
+
+      <z-bottom-app-bar>
+        <nav class="flex items-center justify-around h-16 w-full">
+          <span>Home</span>
+          <span>Search</span>
+          <span>Profile</span>
+        </nav>
+      </z-bottom-app-bar>
+    </z-scaffold>
+  `,
+})
+export class BottomBarScaffoldExample {
+  protected readonly Array = Array;
+}

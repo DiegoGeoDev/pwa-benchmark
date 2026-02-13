@@ -25,7 +25,7 @@
   </z-app-bar>
 
   <!-- Main Content -->
-  <z-scaffold-body class="flex-1">
+  <z-scaffold-body>
     <div class="p-4 space-y-4">
       @for (item of items(); track item) {
         <div class="p-4 rounded-lg border border-border">{{ item }}</div>
@@ -46,8 +46,10 @@
   </z-scaffold-body>
 
   <!-- Bottom Navigation Bar -->
-  <z-bottom-navigation-bar>
-    <z-nav-item routerLink="/home" zIcon="house" zLabel="Home" />
-    <z-nav-item routerLink="/benchmark-01" zIcon="heart" zLabel="Benchmark 01" />
-  </z-bottom-navigation-bar>
+  <z-bottom-app-bar>
+    <z-bottom-navigation-bar>
+      <z-nav-item routerLink="/home" zIcon="house" zLabel="Home" />
+      <z-nav-item routerLink="/benchmark-01" zIcon="layers" zLabel="Map" />
+    </z-bottom-navigation-bar>
+  </z-bottom-app-bar>
 </z-scaffold>

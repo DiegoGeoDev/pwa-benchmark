@@ -5,14 +5,12 @@ import type { ClassValue } from 'clsx';
 import { mergeClasses } from '../../utils/merge-classes';
 
 import {
-  appBarVariants,
-  type ZardAppBarElevationVariants,
-  type ZardAppBarTransparentVariants,
-  type ZardAppBarStickyVariants,
+  bottomAppBarVariants,
+  type ZardBottomAppBarElevationVariants,
 } from './scaffold.variants';
 
 @Component({
-  selector: 'z-app-bar',
+  selector: 'z-bottom-app-bar',
   template: `
     <div [class]="classes()">
       <ng-content />
@@ -23,20 +21,16 @@ import {
   host: {
     '[class]': '"shrink-0 w-full"',
   },
-  exportAs: 'zAppBar',
+  exportAs: 'zBottomAppBar',
 })
-export class AppBarComponent {
+export class BottomAppBarComponent {
   readonly class = input<ClassValue>('');
-  readonly zElevation = input<ZardAppBarElevationVariants>('none');
-  readonly zTransparent = input<ZardAppBarTransparentVariants>(false);
-  readonly zSticky = input<ZardAppBarStickyVariants>(true);
+  readonly zElevation = input<ZardBottomAppBarElevationVariants>('none');
 
   protected readonly classes = computed(() =>
     mergeClasses(
-      appBarVariants({
+      bottomAppBarVariants({
         zElevation: this.zElevation(),
-        zTransparent: this.zTransparent(),
-        zSticky: this.zSticky(),
       }),
       this.class(),
     ),

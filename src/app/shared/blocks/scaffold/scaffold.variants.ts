@@ -5,7 +5,7 @@ import { mergeClasses } from '../../utils/merge-classes';
 export const scaffoldVariants = cva(
   mergeClasses(
     'relative flex flex-col',
-    'w-full h-full min-h-screen',
+    'w-full h-dvh',
     'bg-background text-foreground',
     'overflow-hidden',
   ),
@@ -24,9 +24,8 @@ export const scaffoldVariants = cva(
 
 export const appBarVariants = cva(
   mergeClasses(
-    'w-full shrink-0',
+    'w-full',
     'bg-background',
-
     'z-10',
   ),
   {
@@ -56,7 +55,7 @@ export const appBarVariants = cva(
 
 export const scaffoldBodyVariants = cva(
   mergeClasses(
-    'flex-1 w-full',
+    'h-full w-full',
     'overflow-y-auto overflow-x-hidden',
     'bg-background',
   ),
@@ -75,8 +74,30 @@ export const scaffoldBodyVariants = cva(
   },
 );
 
+export const bottomAppBarVariants = cva(
+  mergeClasses(
+    'w-full',
+    'bg-background',
+    'z-10',
+  ),
+  {
+    variants: {
+      zElevation: {
+        none: 'shadow-none',
+        sm: 'shadow-[0_-1px_3px_0_rgb(0_0_0/0.1)]',
+        md: 'shadow-[0_-4px_6px_-1px_rgb(0_0_0/0.1)]',
+        lg: 'shadow-[0_-10px_15px_-3px_rgb(0_0_0/0.1)]',
+      },
+    },
+    defaultVariants: {
+      zElevation: 'none',
+    },
+  },
+);
+
 export type ZardScaffoldSafeAreaVariants = VariantProps<typeof scaffoldVariants>['zSafeArea'];
 export type ZardAppBarElevationVariants = VariantProps<typeof appBarVariants>['zElevation'];
 export type ZardAppBarTransparentVariants = VariantProps<typeof appBarVariants>['zTransparent'];
 export type ZardAppBarStickyVariants = VariantProps<typeof appBarVariants>['zSticky'];
 export type ZardScaffoldBodyPaddingVariants = VariantProps<typeof scaffoldBodyVariants>['zPadding'];
+export type ZardBottomAppBarElevationVariants = VariantProps<typeof bottomAppBarVariants>['zElevation'];

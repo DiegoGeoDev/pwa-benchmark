@@ -16,7 +16,7 @@ import { scaffoldVariants, type ZardScaffoldSafeAreaVariants } from './scaffold.
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
-    '[class]': '"block w-full h-full"',
+    '[class]': '"block w-full h-dvh"',
   },
   exportAs: 'zScaffold',
 })
