@@ -74,14 +74,14 @@ export class Benchmark01 {
     // Add PMTiles source
     map.addSource('vege_123ab456-source', {
       type: 'vector',
-      url: 'pmtiles://pmtiles/vege_123ab456_v1.0.0.pmtiles',
+      url: 'pmtiles://pmtiles/cb_2018_us_zcta510_500k.pmtiles',
     });
 
     map.addLayer({
       id: 'vege_123ab456-fill',
       type: 'fill',
       source: 'vege_123ab456-source',
-      'source-layer': 'vege_123ab456',
+      'source-layer': 'zcta', //'vege_123ab456',
       minzoom: 4,
       maxzoom: 10,
       paint: {
@@ -94,7 +94,7 @@ export class Benchmark01 {
       id: 'vege_123ab456-line',
       type: 'line',
       source: 'vege_123ab456-source',
-      'source-layer': 'vege_123ab456',
+      'source-layer': 'zcta', //'vege_123ab456',
       minzoom: 6,
       maxzoom: 10,
       paint: {
@@ -107,12 +107,12 @@ export class Benchmark01 {
       id: 'vege_123ab456-highlight',
       type: 'line',
       source: 'vege_123ab456-source',
-      'source-layer': 'vege_123ab456',
+      'source-layer': 'zcta', //'vege_123ab456',
       paint: {
         'line-color': '#ffff00',
         'line-width': 3,
       },
-      filter: ['==', ['get', 'mvt_id'], ''], // Initially show nothing
+      filter: ['==', ['get', 'ZCTA5CE10'], ''], // Initially show nothing
     });
 
     // Add click handler
@@ -121,7 +121,7 @@ export class Benchmark01 {
         const feature = e.features[0] as MapGeoJSONFeature;
         const featureId = feature.id as number;
 
-        console.log('Clicked feature ID:', feature);
+        console.log('Clicked feature:', feature);
 
         if (featureId) {
           this.selectedFeatureId.set(featureId);
