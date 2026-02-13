@@ -18,15 +18,23 @@
   </z-app-bar>
 
   <!-- Main Content -->
-  <z-scaffold-body class="flex-1 flex justify-center items-center">
-    <p>Benchmark 01 Content</p>
+  <z-scaffold-body>
+    <mgl-map
+      [mapStyle]="mapStyle()"
+      [zoom]="zoom()"
+      [center]="center()"
+      (mapLoad)="onMapLoad($event)"
+      class="h-full w-full"
+    >
+      <mgl-control mglNavigation />
+    </mgl-map>
   </z-scaffold-body>
 
   <!-- Bottom Navigation Bar -->
   <z-bottom-app-bar>
     <z-bottom-navigation-bar>
       <z-nav-item routerLink="/home" zIcon="house" zLabel="Home" />
-      <z-nav-item routerLink="/benchmark-01" zIcon="layers" zLabel="Map" />
+      <z-nav-item routerLink="/benchmark-01" zIcon="layers" zLabel="Mapa" />
     </z-bottom-navigation-bar>
   </z-bottom-app-bar>
 </z-scaffold>
