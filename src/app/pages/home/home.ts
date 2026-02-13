@@ -65,6 +65,11 @@ export class Home {
     'Item 15',
   ]);
 
+  handleRefresh(): void {
+    const newItem = `Item ${this.items().length + 1}`;
+    this.items.update((currentItems) => [...currentItems, newItem]);
+  }
+
   openNavigationDrawer(): void {
     this.sheetService.create({
       zTitle: 'Menu',
