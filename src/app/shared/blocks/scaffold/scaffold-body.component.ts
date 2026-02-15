@@ -23,7 +23,7 @@ import { scaffoldBodyVariants, type ZardScaffoldBodyPaddingVariants } from './sc
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
   host: {
-    '[class]': '"flex-1 min-h-0 w-full"',
+    '[class]': '"relative flex-1 min-h-0 w-full"',
   },
   exportAs: 'zScaffoldBody',
 })

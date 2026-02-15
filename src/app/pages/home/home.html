@@ -32,18 +32,20 @@
       }
     </div>
 
-    <z-fab zIcon="plus" ariaLabel="Add" (onClick)="handleRefresh()" class="bottom-20" />
+    <z-scaffold-fabs>
+      <z-fab zIcon="plus" ariaLabel="Add" (onClick)="handleRefresh()" [zContained]="true" />
+    </z-scaffold-fabs>
 
-    <!-- <z-fab
+    <z-fab
       ariaLabel="Refresh with Anchor"
       (onClick)="handleRefresh()"
       [zExtended]="true"
       zLabel="Refresh"
-      zPosition="bottom-left"
-      class="bottom-20"
+      zPosition="top-left"
+      [zContained]="true"
     >
       <z-icon [zType]="AnchorIcon" />
-    </z-fab> -->
+    </z-fab>
   </z-scaffold-body>
 
   <!-- Bottom Navigation Bar -->

@@ -5,6 +5,7 @@ import {
   AppBarComponent,
   ScaffoldBodyComponent,
   BottomAppBarComponent,
+  ScaffoldFabsComponent,
 } from '@/shared/blocks/scaffold';
 import {
   HeaderToolbarComponent,
@@ -29,6 +30,7 @@ import { BottomNavigationBarComponent, NavItemComponent } from '@/shared/blocks/
     AppBarComponent,
     ScaffoldBodyComponent,
     BottomAppBarComponent,
+    ScaffoldFabsComponent,
     HeaderToolbarComponent,
     HeaderTitleComponent,
     HeaderActionsComponent,

@@ -18,6 +18,7 @@ import {
   fabVariants,
   fabIconVariants,
   fabLabelVariants,
+  type ZardFABContainedVariants,
   type ZardFABPositionVariants,
   type ZardFABSizeVariants,
   type ZardFABExtendedVariants,
@@ -73,6 +74,7 @@ export class FloatingActionButtonComponent {
   readonly class = input<ClassValue>('');
   readonly zIcon = input<ZardIcon>();
   readonly zLabel = input<string>('');
+  readonly zContained = input<ZardFABContainedVariants, any>(false, { transform: booleanAttribute });
   readonly zPosition = input<ZardFABPositionVariants>('bottom-right');
   readonly zSize = input<ZardFABSizeVariants>('default');
   readonly zExtended = input<ZardFABExtendedVariants, any>(false, { transform: booleanAttribute });
@@ -86,6 +88,7 @@ export class FloatingActionButtonComponent {
   protected readonly classes = computed(() =>
     mergeClasses(
       fabVariants({
+        zContained: this.zContained(),
         zPosition: this.zPosition(),
         zSize: this.zSize(),
         zExtended: this.zExtended(),

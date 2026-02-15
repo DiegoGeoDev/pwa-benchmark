@@ -4,7 +4,7 @@ import { mergeClasses } from '../../utils/merge-classes';
 
 export const fabVariants = cva(
   mergeClasses(
-    'fixed z-50',
+    'z-50',
     'inline-flex items-center justify-center gap-2',
     'rounded-full shadow-lg',
     'bg-primary text-primary-foreground',
@@ -15,6 +15,10 @@ export const fabVariants = cva(
   ),
   {
     variants: {
+      zContained: {
+        true: 'absolute pointer-events-auto',
+        false: 'fixed',
+      },
       zPosition: {
         'bottom-right': 'bottom-6 right-6',
         'bottom-left': 'bottom-6 left-6',
@@ -40,6 +44,7 @@ export const fabVariants = cva(
       },
     },
     defaultVariants: {
+      zContained: false,
       zPosition: 'bottom-right',
       zSize: 'default',
       zExtended: false,
@@ -74,6 +79,7 @@ export const fabLabelVariants = cva(mergeClasses('font-medium whitespace-nowrap'
   },
 });
 
+export type ZardFABContainedVariants = VariantProps<typeof fabVariants>['zContained'];
 export type ZardFABPositionVariants = VariantProps<typeof fabVariants>['zPosition'];
 export type ZardFABSizeVariants = VariantProps<typeof fabVariants>['zSize'];
 export type ZardFABExtendedVariants = VariantProps<typeof fabVariants>['zExtended'];
