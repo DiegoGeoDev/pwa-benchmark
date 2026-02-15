@@ -32,12 +32,13 @@ export const mapFpsVariants = cva(
         good: 'text-blue-700 dark:text-blue-300',
         fair: 'text-yellow-700 dark:text-yellow-300',
         poor: 'text-red-700 dark:text-red-300',
+        idle: 'text-gray-600 dark:text-gray-400',
       },
     },
     defaultVariants: {
       zPosition: 'top-left',
       zSize: 'default',
-      performanceLevel: 'good',
+      performanceLevel: 'idle',
     },
   },
 );

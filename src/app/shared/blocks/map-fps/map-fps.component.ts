@@ -18,7 +18,7 @@ import {
   type MapFpsSizeVariants,
 } from './map-fps.variants';
 
-export type MapFpsPerformanceLevel = 'excellent' | 'good' | 'fair' | 'poor';
+export type MapFpsPerformanceLevel = 'excellent' | 'good' | 'fair' | 'poor' | 'idle';
 
 @Component({
   selector: 'z-map-fps',
@@ -50,12 +50,13 @@ export class MapFpsComponent implements OnDestroy {
   readonly zUpdateInterval = input<number>(500); // ms
 
   protected readonly currentFps = signal<number>(0);
-  protected readonly performanceLevel = signal<MapFpsPerformanceLevel>('good');
+  protected readonly performanceLevel = signal<MapFpsPerformanceLevel>('idle');
 
   private frameCount = 0;
   private lastTime = performance.now();
-  private animationFrameId: number | null = null;
   private updateIntervalId: number | null = null;
+  private mapInstance: Map | null = null;
+  private renderListener: (() => void) | null = null;
 
   protected readonly classes = computed(() =>
     mergeClasses(
@@ -75,6 +76,7 @@ export class MapFpsComponent implements OnDestroy {
       good: 'Bom',
       fair: 'Regular',
       poor: 'Ruim',
+      idle: 'Ocioso',
     };
     return labels[level];
   });
@@ -96,12 +98,14 @@ export class MapFpsComponent implements OnDestroy {
   private startMonitoring(): void {
     this.stopMonitoring();
 
-    // Count frames
-    const countFrame = () => {
+    this.mapInstance = this.zMap();
+    if (!this.mapInstance) return;
+
+    // Count map render frames
+    this.renderListener = () => {
       this.frameCount++;
-      this.animationFrameId = requestAnimationFrame(countFrame);
     };
-    this.animationFrameId = requestAnimationFrame(countFrame);
+    this.mapInstance.on('render', this.renderListener);
 
     // Update FPS at regular intervals
     this.updateIntervalId = window.setInterval(() => {
@@ -118,20 +122,23 @@ export class MapFpsComponent implements OnDestroy {
   }
 
   private stopMonitoring(): void {
-    if (this.animationFrameId !== null) {
-      cancelAnimationFrame(this.animationFrameId);
-      this.animationFrameId = null;
+    if (this.mapInstance && this.renderListener) {
+      this.mapInstance.off('render', this.renderListener);
+      this.renderListener = null;
     }
     if (this.updateIntervalId !== null) {
       clearInterval(this.updateIntervalId);
       this.updateIntervalId = null;
     }
+    this.mapInstance = null;
   }
 
   private updatePerformanceLevel(fps: number): void {
     let level: MapFpsPerformanceLevel;
 
-    if (fps >= 55) {
+    if (fps === 0) {
+      level = 'idle';
+    } else if (fps >= 55) {
       level = 'excellent';
     } else if (fps >= 45) {
       level = 'good';
