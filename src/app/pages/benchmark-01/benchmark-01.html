@@ -28,6 +28,10 @@
     >
       <mgl-control mglNavigation />
     </mgl-map>
+    
+    @if (map()) {
+      <z-map-fps [zMap]="map()!" zPosition="top-left" />
+    }
   </z-scaffold-body>
 
   <!-- Bottom Navigation Bar -->
