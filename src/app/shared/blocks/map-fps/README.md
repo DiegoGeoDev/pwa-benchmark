@@ -4,10 +4,12 @@ Um componente para monitorar e exibir o FPS (frames per second) de mapas MapLibr
 
 ## Características
 
-- 📊 **Monitoramento em tempo real**: Calcula o FPS usando `requestAnimationFrame`
+- 📊 **Monitoramento em tempo real**: Calcula o FPS baseado nos eventos de renderização do mapa
+- 🎯 **Medição específica**: Monitora apenas o FPS do mapa, não da página toda
 - 🎨 **Indicadores visuais**: Cores que mudam de acordo com a performance
 - 📍 **Posicionamento flexível**: Pode ser posicionado em qualquer canto do mapa
 - ⚙️ **Configurável**: Tamanhos e intervalos de atualização ajustáveis
+- 💤 **Estado ocioso**: Detecta quando o mapa está parado (sem interação)
 - ♿ **Acessível**: Inclui atributos ARIA para leitores de tela
 - 🎯 **Reutilizável**: Pode ser usado em qualquer mapa MapLibre GL
 
@@ -15,6 +17,7 @@ Um componente para monitorar e exibir o FPS (frames per second) de mapas MapLibr
 
 | FPS | Nível | Cor | Descrição |
 |-----|-------|-----|-----------|
+| 0 | Ocioso | Cinza | Mapa parado (sem renderização) |
 | ≥55 | Excelente | Verde | Performance ideal |
 | 45-54 | Bom | Azul | Performance adequada |
 | 30-44 | Regular | Amarelo | Performance aceitável |
@@ -149,15 +152,51 @@ Classes CSS adicionais para customização.
 
 ## Como Funciona
 
-O componente utiliza duas estratégias para medir o FPS:
+O componente utiliza o evento `render` do MapLibre GL para medir o FPS do mapa especificamente:
 
-1. **Contagem de Frames**: Usa `requestAnimationFrame` para contar quantos frames são renderizados
-2. **Cálculo Periódico**: A cada intervalo configurado, calcula o FPS baseado na contagem e no tempo decorrido
+### 1. Contagem de Frames do Mapa
 
-A fórmula utilizada é:
+```typescript
+this.mapInstance.on('render', () => {
+  this.frameCount++;
+});
 ```
-FPS = (frameCount × 1000) / deltaTime
+
+- O evento `render` é disparado pelo MapLibre toda vez que o mapa renderiza um frame
+- Cada evento incrementa o contador `frameCount`
+- **Importante**: Este evento só dispara durante interações (zoom, pan, animações)
+- Quando o mapa está parado, não há eventos `render` → FPS = 0 (estado "Ocioso")
+
+### 2. Cálculo Periódico
+
+A cada intervalo configurado (padrão: 500ms), o FPS é calculado:
+
+```typescript
+const now = performance.now();
+const delta = now - this.lastTime;  // Tempo decorrido em ms
+const fps = Math.round((this.frameCount * 1000) / delta);
 ```
+
+**Fórmula**: `FPS = (frames × 1000) / tempo_em_ms`
+
+**Exemplo prático**:
+- Se em 500ms foram renderizados 30 frames:
+- FPS = (30 × 1000) / 500 = **60 FPS**
+
+### 3. Reset e Atualização
+
+Após calcular o FPS:
+- O contador é resetado: `frameCount = 0`
+- O timer é reiniciado: `lastTime = now`
+- O nível de performance é atualizado
+
+### Vantagens desta Abordagem
+
+✅ **Preciso**: Mede frames reais renderizados pelo motor do mapa
+✅ **Específico**: Monitora apenas o mapa, não a página toda
+✅ **Leve**: Apenas incrementa um contador por frame
+✅ **Inteligente**: Detecta quando o mapa está ocioso
+✅ **Limpo**: Cancela listeners no `ngOnDestroy`
 
 ## Acessibilidade
 
@@ -171,12 +210,17 @@ FPS = (frameCount × 1000) / deltaTime
 O componente é otimizado para ter impacto mínimo na performance:
 
 - Usa `OnPush` change detection
-- Limpa timers e animation frames no `ngOnDestroy`
+- Limpa listeners do mapa no `ngOnDestroy`
 - Atualiza apenas em intervalos configurados
 - Não força re-renders desnecessários
+- Apenas incrementa um contador por evento `render`
 
 ## Notas
 
 - Requer MapLibre GL (`maplibre-gl`) instalado
 - Funciona melhor com intervalos de atualização entre 250ms e 1000ms
 - O FPS mostrado é uma média do período de atualização, não instantâneo
+- **FPS 0 (Ocioso)** é normal quando o mapa está parado - indica que não há renderização
+- Durante interações (zoom, pan), o FPS será medido e exibido com os níveis de performance
+- Em desktops modernos, espere 60 FPS (limitado pelo VSync)
+- Em celulares, o FPS varia (40-60 em médios, acima de 60 em telas 90Hz/120Hz)
