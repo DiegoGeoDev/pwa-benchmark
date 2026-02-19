@@ -28,6 +28,7 @@ import { ZardIconComponent } from '@/shared/components/icon';
 import { DarkModeToggleComponent } from '@/shared/blocks/dark-mode-toggle';
 import { BottomNavigationBarComponent, NavItemComponent } from '@/shared/blocks/bottom-navigation';
 import { MapFpsComponent } from '@/shared/blocks/map-fps';
+import { MapZoomComponent } from '@/shared/blocks/map-zoom';
 
 @Component({
   selector: 'app-benchmark-01',
@@ -48,6 +49,7 @@ import { MapFpsComponent } from '@/shared/blocks/map-fps';
     ControlComponent,
     NavigationControlDirective,
     MapFpsComponent,
+    MapZoomComponent,
   ],
   templateUrl: './benchmark-01.html',
   styleUrl: './benchmark-01.css',
